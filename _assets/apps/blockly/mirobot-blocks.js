@@ -142,6 +142,40 @@ Blockly.Mirobot['mirobot_pendown'] = function(block) {
   return 'self.pendown("' + block.id + '");\n';
 };
 
+Blockly.Blocks['mirobot_servo'] = {
+  init: function() {
+    var str = l(':servo-cmd');
+    var tokens = tokenise(str);
+    for(var i = 0; i< tokens.length; i++){
+      if(tokens[i] === '[[angle]]'){
+        this.appendValueInput("ANGLE")
+          .setCheck("Number");
+      }else{
+        this.appendDummyInput().appendField(tokens[i]);
+      }
+    }
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.JavaScript['mirobot_servo'] = function(block) {
+  // Generate JavaScript for turning left or right.
+  var angle = Blockly.JavaScript.valueToCode(block, 'ANGLE', Blockly.JavaScript.ORDER_NONE) || '0';
+  //console.log(angle);
+  return 'mirobot.servo(' + (angle * 10) + ');\n';
+};
+
+Blockly.Mirobot['mirobot_servo'] = function(block) {
+  // Generate JavaScript for turning left or right.
+  var angle = Blockly.JavaScript.valueToCode(block, 'ANGLE', Blockly.JavaScript.ORDER_NONE) || '0';
+  //console.log(angle);
+  return 'self.servo(' + (angle * 10) + ', "' + block.id + '");\n';
+};
 
 Blockly.Blocks['mirobot_beep'] = {
   init: function() {
@@ -165,12 +199,12 @@ Blockly.Blocks['mirobot_beep'] = {
 
 Blockly.JavaScript['mirobot_beep'] = function(block) {
   // Generate JavaScript for beep.
-  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '0';
-  return 'self.beep(' + (value*1000) + ');\n';
+  var value = Blockly.JavaScript.valueToCode(block, 'DURATION', Blockly.JavaScript.ORDER_NONE) || '0';
+  return 'self.beep(' + (value * 1000) + ');\n';
 };
 
 Blockly.Mirobot['mirobot_beep'] = function(block) {
   // Generate JavaScript for beep.
-  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '0';
-  return 'self.beep(' + (value*1000) + ', "' + block.id + '");\n';
+  var value = Blockly.JavaScript.valueToCode(block, 'DURATION', Blockly.JavaScript.ORDER_NONE) || '0';
+  return 'self.beep(' + (value * 1000) + ', "' + block.id + '");\n';
 };

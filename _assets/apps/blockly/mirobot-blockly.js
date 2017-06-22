@@ -63,6 +63,9 @@ function MirobotRunner(mirobot){
   this.pendown = function(el){
     this.stack.push(runCmd(function(){ self.mirobot.pendown(done()) }, el));
   }
+  this.servo = function(angle, el){
+    this.stack.push(runCmd(function(){ self.mirobot.servo(angle, done()) }, el));
+  }
   this.beep = function(duration, el){
     this.stack.push(runCmd(function(){ self.mirobot.beep(duration, done()) }, el));
   }
