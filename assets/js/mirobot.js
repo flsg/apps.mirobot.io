@@ -167,6 +167,14 @@ Mirobot.prototype = {
     this.send({cmd: 'pendown'}, cb);
   },
 
+  servo: function(angle, cb){
+    this.send({cmd: 'servo', arg: angle * 10}, cb);
+  },
+
+  rgb: function(led, red, green, blue, cb){
+    this.send({cmd: 'rgb', arg1: led, arg2: red, arg3: green, arg4: blue}, cb);
+  },
+
   beep: function(duration, cb){
     this.send({cmd: 'beep', arg: duration}, cb);
   },

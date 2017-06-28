@@ -166,15 +166,64 @@ Blockly.Blocks['mirobot_servo'] = {
 Blockly.JavaScript['mirobot_servo'] = function(block) {
   // Generate JavaScript for turning left or right.
   var angle = Blockly.JavaScript.valueToCode(block, 'ANGLE', Blockly.JavaScript.ORDER_NONE) || '0';
-  //console.log(angle);
-  return 'mirobot.servo(' + (angle * 10) + ');\n';
+  return 'mirobot.servo(' + angle + ');\n';
 };
 
 Blockly.Mirobot['mirobot_servo'] = function(block) {
   // Generate JavaScript for turning left or right.
   var angle = Blockly.JavaScript.valueToCode(block, 'ANGLE', Blockly.JavaScript.ORDER_NONE) || '0';
-  //console.log(angle);
-  return 'self.servo(' + (angle * 10) + ', "' + block.id + '");\n';
+  return 'self.servo(' + angle + ', "' + block.id + '");\n';
+};
+
+Blockly.Blocks['mirobot_rgb'] = {
+  init: function() {
+    var str = l(':rgb-cmd');
+    var tokens = tokenise(str);
+    var DIRECTIONS = [[l(":left"), "left"], [l(":right"), "right"]]
+    DIRECTIONS[0][0] += ' \u21BA';
+    DIRECTIONS[1][0] += ' \u21BB';
+    for(var i = 0; i< tokens.length; i++){
+      if(tokens[i] === '[[led]]'){
+        this.appendValueInput("LED")
+            .setCheck("Number");
+      }else if(tokens[i] === '[[red]]'){
+        this.appendValueInput("RED")
+          .setCheck("Number");
+      }else if(tokens[i] === '[[green]]'){
+        this.appendValueInput("GREEN")
+          .setCheck("Number");
+      }else if(tokens[i] === '[[blue]]'){
+        this.appendValueInput("BLUE")
+          .setCheck("Number");
+      }else{
+        this.appendDummyInput().appendField(tokens[i]);
+      }
+    }
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.JavaScript['mirobot_rgb'] = function(block) {
+  // Generate JavaScript for turning left or right.
+  var led = Blockly.JavaScript.valueToCode(block, 'LED', Blockly.JavaScript.ORDER_NONE) || '0';
+  var red = Blockly.JavaScript.valueToCode(block, 'RED', Blockly.JavaScript.ORDER_NONE) || '0';
+  var green = Blockly.JavaScript.valueToCode(block, 'GREEN', Blockly.JavaScript.ORDER_NONE) || '0';
+  var blue = Blockly.JavaScript.valueToCode(block, 'BLUE', Blockly.JavaScript.ORDER_NONE) || '0';
+  return 'mirobot.rgb(' + led + ',' + red + ',' + green + ',' + blue + ');\n';
+};
+
+Blockly.Mirobot['mirobot_rgb'] = function(block) {
+  // Generate JavaScript for turning left or right.
+  var led = Blockly.JavaScript.valueToCode(block, 'LED', Blockly.JavaScript.ORDER_NONE) || '0';
+  var red = Blockly.JavaScript.valueToCode(block, 'RED', Blockly.JavaScript.ORDER_NONE) || '0';
+  var green = Blockly.JavaScript.valueToCode(block, 'GREEN', Blockly.JavaScript.ORDER_NONE) || '0';
+  var blue = Blockly.JavaScript.valueToCode(block, 'BLUE', Blockly.JavaScript.ORDER_NONE) || '0';
+  return 'self.rgb(' + led + ',' + red + ',' + green + ',' + blue + ', "' + block.id + '");\n';
 };
 
 Blockly.Blocks['mirobot_beep'] = {
