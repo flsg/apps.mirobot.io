@@ -175,13 +175,45 @@ Blockly.Mirobot['mirobot_servo'] = function(block) {
   return 'self.servo(' + angle + ', "' + block.id + '");\n';
 };
 
+Blockly.Blocks['mirobot_linesensor'] = {
+  init: function() {
+    var str = l(':linesensor-cmd');
+    var tokens = tokenise(str);
+    var LINESENSOR = [[l(":left"), 0], [l(":right"), 1]]
+    for(var i = 0; i< tokens.length; i++){
+      if(tokens[i] === '[[linesensor]]'){
+        this.appendDummyInput()
+          .appendField(new Blockly.FieldDropdown(LINESENSOR), "LINESENSOR");
+      }else{
+        this.appendDummyInput().appendField(tokens[i]);
+      }
+    }
+    this.setInputsInline(true);
+    this.setOutput(true, "Number");
+    this.setPreviousStatement(false);
+    this.setNextStatement(false);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('http://www.example.com/');
+  }
+};
+
+Blockly.JavaScript['mirobot_linesensor'] = function(block) {
+  // Generate JavaScript for turning left or right.
+  var linesensor = block.getFieldValue('LINESENSOR');
+  return 'mirobot.linesensor(' + linesensor + ');\n';
+};
+
+Blockly.Mirobot['mirobot_linesensor'] = function(block) {
+  // Generate JavaScript for turning left or right.
+  var linesensor = block.getFieldValue('LINESENSOR');
+  return 'self.linesensor(' + linesensor + ');\n';
+};
+
 Blockly.Blocks['mirobot_rgb'] = {
   init: function() {
     var str = l(':rgb-cmd');
     var tokens = tokenise(str);
-    var DIRECTIONS = [[l(":left"), "left"], [l(":right"), "right"]]
-    DIRECTIONS[0][0] += ' \u21BA';
-    DIRECTIONS[1][0] += ' \u21BB';
     for(var i = 0; i< tokens.length; i++){
       if(tokens[i] === '[[led]]'){
         this.appendValueInput("LED")

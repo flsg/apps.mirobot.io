@@ -66,6 +66,9 @@ function MirobotRunner(mirobot){
   this.servo = function(angle, el){
     this.stack.push(runCmd(function(){ self.mirobot.servo(angle, done()) }, el));
   }
+  this.linesensor = function(linesensor, el){
+    this.stack.push(runCmd(function(){ self.mirobot.linesensor(linesensor, done()) }, el));
+  }
   this.rgb = function(led, red, green, blue, el){
     this.stack.push(runCmd(function(){ self.mirobot.rgb(led, red, green, blue, done()) }, el));
   }
